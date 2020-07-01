@@ -1,20 +1,14 @@
-import React from 'react';
-import { ThemeContext } from './theme-context';
-import Button from 'react-bootstrap/Button';
+import React, { useContext } from "react";
+import { ThemeContext } from "./theme-context";
+import Button from "react-bootstrap/Button";
 
 const ThemeTogglerButton = () => {
+    const { toggleTheme } = useContext(ThemeContext);
     return (
-        <ThemeContext.Consumer>
-            {({ toggleTheme }) => (
-                <Button
-                    onClick={toggleTheme}
-                    className="ml-3"
-                    variant="primary">
-                    Toggle Theme
-                </Button>
-            )}
-        </ThemeContext.Consumer>
+        <Button onClick={toggleTheme} className="mb-3" variant="secondary">
+            Toggle Theme
+        </Button>
     );
-}
+};
 
 export default ThemeTogglerButton;

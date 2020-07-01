@@ -19,7 +19,6 @@ const Login = () => {
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
             <div>
-                <p style={{ display: "inline" }}>Choose Your Theme :</p>
                 <ThemeTogglerButton />
             </div>
             <Button variant="primary" type="submit">
