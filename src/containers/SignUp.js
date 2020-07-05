@@ -1,28 +1,70 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import UserContext from '../containers/Context/auth-context';
 
-const SignUp = (props) => {
+const SignUp = (porps) => {
+
+    const [userData, setUserData] = useState({})
+
+    const inputChnageHandler = (event) => {
+        const value = event.target.value;
+        setUserData({
+            ...userData,
+            [event.target.name]: value
+        })
+    }
+
+    const { saveUserData } = useContext(UserContext);
+
     return (
-        <Form>
-            <Form.Group>
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Enter your name" />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>Family</Form.Label>
-                <Form.Control type="text" placeholder="Enter your family" />
-            </Form.Group>
+        <Form onSubmit={(e) => {
+            e.preventDefault();
+            saveUserData(userData);
+            const { history } = porps;
+            history.push('/login');
+        }}>
+            <Form.Row>
+                <Form.Group as={Col}>
+                    <Form.Label>First Name</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter your first name"
+                        name="first_name"
+                        value={userData.first_name}
+                        onChange={inputChnageHandler} />
+                </Form.Group>
+                <Form.Group as={Col}>
+                    <Form.Label>Last Family</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter your last name"
+                        name="last_name"
+                        value={userData.last_name}
+                        onChange={inputChnageHandler} />
+                </Form.Group>
+            </Form.Row>
             <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                    type="email"
+                    placeholder="Enter your email address"
+                    name="email"
+                    value={userData.email}
+                    onChange={inputChnageHandler} />
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                    type="password"
+                    placeholder="Enter your password"
+                    name="password"
+                    value={userData.password}
+                    onChange={inputChnageHandler} />
             </Form.Group>
-            <Button variant="primary" type="submit">
-                Submit
+            <Button className="mt-5" variant="secondary" type="submit" block>
+                Sign Up
             </Button>
         </Form>
     )

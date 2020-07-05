@@ -37,8 +37,8 @@ const Posts = () => {
         <Aux>
             <h2 style={{ textAlign: "center" }}>News Articles</h2>
             <Form className="justify-content-center m-5" inline onSubmit={event => {
-                setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`)
                 event.preventDefault();
+                setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`)
             }}>
                 <FormControl
                     type="text"
