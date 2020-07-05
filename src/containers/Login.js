@@ -7,8 +7,8 @@ import ThemeContext from '../containers/Context/theme-context';
 const Login = (props) => {
 
     const [userData, setUserData] = useState({
-        email:'',
-        password:''
+        email: '',
+        password: ''
     });
 
     const inputChnageHandler = (event) => {
@@ -24,13 +24,17 @@ const Login = (props) => {
 
     const LoginHandler = (event) => {
         event.preventDefault();
-        if (user.email === userData.email && user.password === userData.password) {
-            localStorage.setItem('user', JSON.stringify(userData))
-            toggleLoginLogout();
-            const { history } = props;
-            history.push('/')
+        if (userData.email !== '' && userData.password !== '') {
+            if (user.email === userData.email && user.password === userData.password) {
+                localStorage.setItem('user', JSON.stringify(userData))
+                toggleLoginLogout();
+                const { history } = props;
+                history.push('/')
+            } else {
+                alert('Email or password is incorrect');
+            }
         } else {
-            alert('You should sign up first!');
+            alert('Fill all the fields first!');
         }
     }
 
