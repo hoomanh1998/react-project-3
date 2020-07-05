@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import ThemeTogglerButton from './Context/theme-toggler-button';
 import UserContext from '../containers/Context/auth-context';
+import ThemeContext from '../containers/Context/theme-context';
 
 const Login = (props) => {
 
@@ -17,6 +17,7 @@ const Login = (props) => {
     }
 
     const { user, toggleLoginLogout } = useContext(UserContext)
+    const { toggleTheme } = useContext(ThemeContext);
 
     const LoginHandler = (event) => {
         event.preventDefault();
@@ -53,9 +54,9 @@ const Login = (props) => {
                     value={userData.password}
                     onChange={inputChnageHandler} />
             </Form.Group>
-            <div>
-                <ThemeTogglerButton />
-            </div>
+            <Button variant="outline-secondary" onClick={toggleTheme}>
+                Toggle Theme
+            </Button>
             <Button className="mt-5" variant="secondary" type="submit" block>
                 Login
             </Button>
