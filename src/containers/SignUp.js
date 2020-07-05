@@ -6,7 +6,12 @@ import UserContext from '../containers/Context/auth-context';
 
 const SignUp = (porps) => {
 
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState({
+        first_name:'',
+        last_name:'',
+        email:'',
+        password:''
+    })
 
     const inputChnageHandler = (event) => {
         const value = event.target.value;

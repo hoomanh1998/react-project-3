@@ -6,7 +6,10 @@ import ThemeContext from '../containers/Context/theme-context';
 
 const Login = (props) => {
 
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState({
+        email:'',
+        password:''
+    });
 
     const inputChnageHandler = (event) => {
         const value = event.target.value;
