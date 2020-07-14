@@ -5,12 +5,17 @@ import UserContext from '../containers/Context/auth-context';
 import Aux from '../hoc/Auxiliray';
 
 const Header = () => {
-    
+
     const { theme } = useContext(ThemeContext);
-    const { logoutHandler, isLogged } = useContext(UserContext);
+    const { logoutHandler } = useContext(UserContext);
+
+    let isLogged = null;
+    if (JSON.parse(localStorage.getItem('user'))) {
+        isLogged = JSON.parse(localStorage.getItem('user')).isLogged;
+    }
 
     let navItems = null;
-    if (isLogged === 'true') {
+    if (isLogged === true) {
         navItems = (
             <Nav.Item className="ml-3">
                 <Nav.Link href="/login" onClick={logoutHandler}>Logout</Nav.Link>

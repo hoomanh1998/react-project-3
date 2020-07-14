@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import CardColumns from 'react-bootstrap/CardColumns';
 import FormControl from 'react-bootstrap/FormControl';
@@ -7,7 +7,6 @@ import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Aux from '../hoc/Auxiliray';
 import Spinner from '../components/UI/Spinner/Spinner';
-import UserContext from '../containers/Context/auth-context';
 
 
 const Posts = () => {
@@ -35,14 +34,9 @@ const Posts = () => {
         fetchData();
     }, [url]);
 
-    const { user, isLogged } = useContext(UserContext);
-
     return (
         <Aux>
-            {isLogged === 'true' ?
-                <h1 className="text-center mb-5">Welcome, {user.first_name} {user.last_name} !</h1>
-                :
-                null}
+            <h1 className="text-center mb-5">Welcome!</h1>
             <h2 style={{ textAlign: "center" }}>News Articles</h2>
             <Form className="justify-content-center m-5" inline onSubmit={event => {
                 event.preventDefault();

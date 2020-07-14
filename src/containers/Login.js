@@ -8,7 +8,8 @@ const Login = (props) => {
 
     const [userData, setUserData] = useState({
         email: '',
-        password: ''
+        password: '',
+        isLogged: false
     });
 
     const inputChnageHandler = (event) => {
@@ -19,17 +20,17 @@ const Login = (props) => {
         })
     }
 
-    const { user, toggleLoginLogout } = useContext(UserContext)
+    const { user } = useContext(UserContext)
     const { toggleTheme } = useContext(ThemeContext);
 
     const LoginHandler = (event) => {
         event.preventDefault();
         if (userData.email !== '' && userData.password !== '') {
             if (user.email === userData.email && user.password === userData.password) {
+                userData.isLogged = true
                 localStorage.setItem('user', JSON.stringify(userData))
-                toggleLoginLogout();
                 const { history } = props;
-                history.push('/')
+                history.replace('/')
             } else {
                 alert('Email or password is incorrect');
             }

@@ -7,6 +7,7 @@ import Login from "./containers/Login";
 import SignUp from "./containers/SignUp";
 import ThemeContext, { themes } from "./containers/Context/theme-context";
 import UserContext from './containers/Context/auth-context';
+import PrivateRoute from './hoc/PrivateRoute';
 
 const App = () => {
 
@@ -22,7 +23,6 @@ const App = () => {
     toggleTheme
   });
 
-  const [isLogged, setIsLogged] = useState('false')
   const [user, setUser] = useState({
     first_name: '',
     last_name: '',
@@ -45,24 +45,18 @@ const App = () => {
     alert('Successfully logout');
   };
 
-  const toggleLoginLogout = () => {
-    setIsLogged(isLogged === 'true' ? 'false' : 'true')
-  }
-
   return (
     <ThemeContext.Provider value={state}>
       <UserContext.Provider value={{
-        isLogged,
         user,
-        toggleLoginLogout,
         saveUserData,
         logoutHandler
       }}>
         <Layout>
           <Switch>
-            <Route path="/" exact component={Posts} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
+            <PrivateRoute path="/" component={Posts} />
             <Redirect to="/" />
           </Switch>
         </Layout>
