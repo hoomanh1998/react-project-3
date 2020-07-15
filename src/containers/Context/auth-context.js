@@ -5,10 +5,10 @@ export const UserContext = createContext({
     last_name: '',
     email: '',
     password: '',
-    isLogged: 'false',
+    isLogged: false,
     saveUserData: () => { },
     logoutHandler: () => { },
-    toggleLoginLogout: () => { }
+    toggleLogStatus: () => { }
 });
 
 export default UserContext;

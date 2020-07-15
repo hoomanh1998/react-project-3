@@ -30,6 +30,8 @@ const App = () => {
     password: ''
   })
 
+  const [isLogged, setIsLogged] = useState(false)
+
   const saveUserData = (userData) => {
     setUser({
       ...user,
@@ -45,12 +47,18 @@ const App = () => {
     alert('Successfully logout');
   };
 
+  const toggleLogStatus = () => {
+    setIsLogged(prevState => (!prevState))
+  }
+
   return (
     <ThemeContext.Provider value={state}>
       <UserContext.Provider value={{
         user,
+        isLogged,
         saveUserData,
-        logoutHandler
+        logoutHandler,
+        toggleLogStatus
       }}>
         <Layout>
           <Switch>

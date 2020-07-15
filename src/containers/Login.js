@@ -20,17 +20,18 @@ const Login = (props) => {
         })
     }
 
-    const { user } = useContext(UserContext)
+    const { user , toggleLogStatus } = useContext(UserContext)
     const { toggleTheme } = useContext(ThemeContext);
 
     const LoginHandler = (event) => {
         event.preventDefault();
         if (userData.email !== '' && userData.password !== '') {
             if (user.email === userData.email && user.password === userData.password) {
+                toggleLogStatus();
                 userData.isLogged = true
                 localStorage.setItem('user', JSON.stringify(userData))
                 const { history } = props;
-                history.replace('/')
+                history.push('/')
             } else {
                 alert('Email or password is incorrect');
             }
