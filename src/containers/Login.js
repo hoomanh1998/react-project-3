@@ -3,73 +3,90 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import UserContext from '../containers/Context/auth-context';
 import ThemeContext from '../containers/Context/theme-context';
+import Aux from '../hoc/Auxiliray';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const Login = (props) => {
 
-    const [userData, setUserData] = useState({
-        email: '',
-        password: '',
-        isLogged: false
-    });
+    const [state, setState] = useState({isLogged: false});
 
-    const inputChnageHandler = (event) => {
-        const value = event.target.value;
-        setUserData({
-            ...userData,
-            [event.target.name]: value
-        })
-    }
-
-    const { user , toggleLogStatus } = useContext(UserContext)
+    const { user, toggleLogStatus } = useContext(UserContext)
     const { toggleTheme } = useContext(ThemeContext);
 
-    const LoginHandler = (event) => {
-        event.preventDefault();
-        if (userData.email !== '' && userData.password !== '') {
-            if (user.email === userData.email && user.password === userData.password) {
-                toggleLogStatus();
-                userData.isLogged = true
-                localStorage.setItem('user', JSON.stringify(userData))
-                const { history } = props;
-                history.push('/')
-            } else {
-                alert('Email or password is incorrect');
-            }
-        } else {
-            alert('Fill all the fields first!');
-        }
-    }
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+            .email("*Must be a valid email address")
+            .required("*Email Required"),
+        password: Yup.string()
+            .required("*Password Required")
+            .min(6, "*Password must be more than 6 characters")
+    });
 
     return (
-        <Form onSubmit={LoginHandler}>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                    type="email"
-                    placeholder="Enter your email"
-                    name="email"
-                    value={userData.email}
-                    onChange={inputChnageHandler} />
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                    type="password"
-                    placeholder="Enter your password"
-                    name="password"
-                    value={userData.password}
-                    onChange={inputChnageHandler} />
-            </Form.Group>
-            <Button variant="outline-secondary" onClick={toggleTheme}>
-                Toggle Theme
-            </Button>
-            <Button className="mt-5" variant="secondary" type="submit" block>
-                Login
-            </Button>
-        </Form>
+        <Aux>
+            <h2 className="mb-5 text-center">Login Page</h2>
+            <Formik
+                initialValues={{ email: '', password: '' }}
+                validationSchema={validationSchema}
+            >
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    isSubmitting
+                }) => (
+                        <Form onSubmit={(e) => {
+                            e.preventDefault();
+                            toggleLogStatus();
+                            state.isLogged = true;
+                            localStorage.setItem('user', JSON.stringify(state))
+                            const { history } = props;
+                            history.push('/')
+                        }}>
+                            <Form.Group controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    name="email"
+                                    value={values.email}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
+                                    isInvalid={touched.email && !!errors.email}
+                                    isValid={touched.email && !errors.email} />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Form.Group controlId="formBasicPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder="Enter your password"
+                                    name="password"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.password && !!errors.password}
+                                    isValid={touched.password && !errors.password} />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                            <Button variant="outline-secondary" onClick={toggleTheme}>
+                                Toggle Theme
+                            </Button>
+                            <Button className="mt-5" variant="secondary" type="submit" block disabled={isSubmitting}>
+                                Login
+                            </Button>
+                        </Form>
+                    )}
+            </Formik>
+        </Aux >
     )
 }
 
