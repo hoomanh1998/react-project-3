@@ -3,9 +3,11 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import ThemeContext from "../containers/Context/theme-context";
 import UserContext from '../containers/Context/auth-context';
 import Aux from '../hoc/Auxiliray';
+import { withRouter } from "react-router";
 
-const Header = () => {
+const Header = (props) => {
 
+    const { location } = props;
     const { theme } = useContext(ThemeContext);
     const { logoutHandler } = useContext(UserContext);
 
@@ -40,7 +42,7 @@ const Header = () => {
                 <Navbar.Brand href="/">Home</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto">
+                    <Nav className="ml-auto" activeKey={location.pathname}>
                         {navItems}
                     </Nav>
                 </Navbar.Collapse>
@@ -49,4 +51,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default withRouter(Header);

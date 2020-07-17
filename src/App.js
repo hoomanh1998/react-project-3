@@ -44,7 +44,6 @@ const App = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem('user');
-    alert('Successfully logout');
   };
 
   const toggleLogStatus = () => {

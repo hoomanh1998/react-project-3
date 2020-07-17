@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import UserContext from '../containers/Context/auth-context';
@@ -8,8 +8,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const Login = (props) => {
-
-    const [state, setState] = useState({isLogged: false});
 
     const { user, toggleLogStatus } = useContext(UserContext)
     const { toggleTheme } = useContext(ThemeContext);
@@ -25,27 +23,25 @@ const Login = (props) => {
 
     return (
         <Aux>
-            <h2 className="mb-5 text-center">Login Page</h2>
+            <h2 className="mb-5 pb-3 text-center border-bottom">Login Page</h2>
             <Formik
                 initialValues={{ email: '', password: '' }}
-                validationSchema={validationSchema}
-            >
+                validationSchema={validationSchema}>
                 {({
                     values,
                     errors,
                     touched,
                     handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting
+                    handleBlur
                 }) => (
-                        <Form onSubmit={(e) => {
+                        <Form onSubmit={e => {
                             e.preventDefault();
-                            toggleLogStatus();
-                            state.isLogged = true;
-                            localStorage.setItem('user', JSON.stringify(state))
-                            const { history } = props;
-                            history.push('/')
+                            if (user.email === values.email && user.password === values.password) {
+                                toggleLogStatus();
+                                localStorage.setItem('user', JSON.stringify({isLogged: true}))
+                                const { history } = props;
+                                history.push('/')
+                            }
                         }}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
@@ -56,8 +52,7 @@ const Login = (props) => {
                                     value={values.email}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    isInvalid={touched.email && !!errors.email}
-                                    isValid={touched.email && !errors.email} />
+                                    isInvalid={touched.email && !!errors.email} />
                                 <Form.Control.Feedback type="invalid">
                                     {errors.email}
                                 </Form.Control.Feedback>
@@ -71,8 +66,7 @@ const Login = (props) => {
                                     value={values.password}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
-                                    isInvalid={touched.password && !!errors.password}
-                                    isValid={touched.password && !errors.password} />
+                                    isInvalid={touched.password && !!errors.password} />
                                 <Form.Control.Feedback type="invalid">
                                     {errors.password}
                                 </Form.Control.Feedback>
@@ -80,7 +74,7 @@ const Login = (props) => {
                             <Button variant="outline-secondary" onClick={toggleTheme}>
                                 Toggle Theme
                             </Button>
-                            <Button className="mt-5" variant="secondary" type="submit" block disabled={isSubmitting}>
+                            <Button className="mt-5" variant="secondary" type="submit" block>
                                 Login
                             </Button>
                         </Form>

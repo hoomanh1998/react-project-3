@@ -13,6 +13,12 @@ const SignUp = (porps) => {
     const { saveUserData } = useContext(UserContext);
 
     const validationSchema = Yup.object().shape({
+        first_name: Yup.string()
+            .min(2, "*First Name must have at least 2 characters")
+            .required("*Name Required"),
+        last_name: Yup.string()
+            .min(2, "*Last Name must have at least 2 characters")
+            .required("*Last Name Required"),
         email: Yup.string()
             .email("*Must be a valid email address")
             .required("*Email Required"),
@@ -23,25 +29,26 @@ const SignUp = (porps) => {
 
     return (
         <Aux>
-            <h2 className="mb-5 text-center">SignUp Page</h2>
+            <h2 className="mb-5 pb-3 text-center border-bottom">SignUp Page</h2>
             <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' }}
-                validationSchema={validationSchema}>
+                validationSchema={validationSchema}
+                onSubmit={(values, { setSubmitting }) => {
+                    saveUserData(values);
+                    const { history } = porps;
+                    history.push('/login');
+                    setSubmitting(false);
+                }}>
                 {({
                     values,
                     errors,
                     touched,
                     handleChange,
                     handleBlur,
+                    handleSubmit,
                     isSubmitting
                 }) => (
-                        <Form onSubmit={(e) => {
-                            e.preventDefault();
-                            saveUserData(values);
-                            // console.log(values)
-                            const { history } = porps;
-                            history.push('/login');
-                        }}>
+                        <Form onSubmit={handleSubmit}>
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label>First Name</Form.Label>
@@ -51,7 +58,11 @@ const SignUp = (porps) => {
                                         name="first_name"
                                         value={values.first_name}
                                         onChange={handleChange}
-                                        onBlur={handleBlur} />
+                                        onBlur={handleBlur}
+                                        isInvalid={touched.first_name && !!errors.first_name} />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.first_name}
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label>Last Family</Form.Label>
@@ -61,7 +72,11 @@ const SignUp = (porps) => {
                                         name="last_name"
                                         value={values.last_name}
                                         onChange={handleChange}
-                                        onBlur={handleBlur} />
+                                        onBlur={handleBlur}
+                                        isInvalid={touched.last_name && !!errors.last_name} />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.last_name}
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                             </Form.Row>
                             <Form.Group controlId="formBasicEmail">
@@ -72,7 +87,11 @@ const SignUp = (porps) => {
                                     name="email"
                                     value={values.email}
                                     onChange={handleChange}
-                                    onBlur={handleBlur} />
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.email && !!errors.email} />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
@@ -82,9 +101,18 @@ const SignUp = (porps) => {
                                     name="password"
                                     value={values.password}
                                     onChange={handleChange}
-                                    onBlur={handleBlur} />
+                                    onBlur={handleBlur}
+                                    isInvalid={touched.password && !!errors.password} />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password}
+                                </Form.Control.Feedback>
                             </Form.Group>
-                            <Button className="mt-5" variant="secondary" type="submit" block>
+                            <Button
+                                className="mt-5"
+                                variant="secondary"
+                                type="submit"
+                                disabled={isSubmitting}
+                                block>
                                 Sign Up
                             </Button>
                         </Form>
