@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 import Layout from "./hoc/Layout";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Posts from "./containers/Posts";
+import FullPost from "./containers/FullPost";
 import Login from "./containers/Login";
 import SignUp from "./containers/SignUp";
 import ThemeContext, { themes } from "./containers/Context/theme-context";
@@ -63,8 +64,8 @@ const App = () => {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/signup" component={SignUp} />
+            <PrivateRoute path="/:id" component={FullPost} />
             <PrivateRoute path="/" component={Posts} />
-            <Redirect to="/" />
           </Switch>
         </Layout>
       </UserContext.Provider>

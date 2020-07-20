@@ -21,6 +21,20 @@ const Login = (props) => {
             .min(6, "*Password must be more than 6 characters")
     });
 
+    const submitHandler = (e, values) => {
+        e.preventDefault();
+        if (values.email !== "" && values.password !== "") {
+            if (user.email === values.email && user.password === values.password) {
+                toggleLogStatus();
+                localStorage.setItem('user', JSON.stringify({ isLogged: true }))
+                const { history } = props;
+                history.push('/')
+            } else {
+                alert('You should sign up!')
+            }
+        }
+    }
+
     return (
         <Aux>
             <h2 className="mb-5 pb-3 text-center border-bottom">Login Page</h2>
@@ -34,15 +48,7 @@ const Login = (props) => {
                     handleChange,
                     handleBlur
                 }) => (
-                        <Form onSubmit={e => {
-                            e.preventDefault();
-                            if (user.email === values.email && user.password === values.password) {
-                                toggleLogStatus();
-                                localStorage.setItem('user', JSON.stringify({isLogged: true}))
-                                const { history } = props;
-                                history.push('/')
-                            }
-                        }}>
+                        <Form onSubmit={e => submitHandler(e, values)}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control

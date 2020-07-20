@@ -14,11 +14,9 @@ const SignUp = (porps) => {
 
     const validationSchema = Yup.object().shape({
         first_name: Yup.string()
-            .min(2, "*First Name must have at least 2 characters")
-            .required("*Name Required"),
+            .min(2, "*First Name must have at least 2 characters"),
         last_name: Yup.string()
-            .min(2, "*Last Name must have at least 2 characters")
-            .required("*Last Name Required"),
+            .min(2, "*Last Name must have at least 2 characters"),
         email: Yup.string()
             .email("*Must be a valid email address")
             .required("*Email Required"),

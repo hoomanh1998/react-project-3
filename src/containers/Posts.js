@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import CardColumns from 'react-bootstrap/CardColumns';
-import FormControl from 'react-bootstrap/FormControl';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Aux from '../hoc/Auxiliray';
 import Spinner from '../components/UI/Spinner/Spinner';
@@ -11,11 +8,7 @@ import Spinner from '../components/UI/Spinner/Spinner';
 
 const Posts = () => {
 
-    const [data, setData] = useState({ hits: [] });
-    const [query, setQuery] = useState('');
-    const [url, setUrl] = useState(
-        'https://hn.algolia.com/api/v1/search?query=news',
-    );
+    const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
@@ -24,7 +17,7 @@ const Posts = () => {
             setIsError(false);
             setIsLoading(true);
             try {
-                const result = await axios(url);
+                const result = await axios('https://jsonplaceholder.typicode.com/posts');
                 setData(result.data)
             } catch (error) {
                 setIsError(true)
@@ -32,36 +25,21 @@ const Posts = () => {
             setIsLoading(false);
         };
         fetchData();
-    }, [url]);
+    }, []);
 
     return (
         <Aux>
             <h1 className="text-center mb-5">Welcome!</h1>
-            <h2 style={{ textAlign: "center" }}>News Articles</h2>
-            <Form className="justify-content-center m-5" inline onSubmit={event => {
-                event.preventDefault();
-                setUrl(`http://hn.algolia.com/api/v1/search?query=${query}`)
-            }}>
-                <FormControl
-                    type="text"
-                    value={query}
-                    placeholder="Search for something..."
-                    onChange={event => setQuery(event.target.value)}
-                    className="mr-sm-2" />
-                <Button
-                    variant="outline-success"
-                    type="submit">Search</Button>
-            </Form>
-            {isError && <h3 style={{ color: "red" }}>Something went wrong ...</h3>}
+            {isError && <h4 className="text-center m-5" style={{ color: "red" }}>Something went wrong ...</h4>}
             {isLoading ?
                 <Spinner />
                 :
                 <CardColumns>
-                    {data.hits.map(item => (
+                    {data.map(item => (
                         <Post
-                            key={item.objectID}
-                            title={item.author}
-                            text={item.title} />
+                            key={item.id}
+                            id={item.id}
+                            title={item.title} />
                     ))}
                 </CardColumns>}
 

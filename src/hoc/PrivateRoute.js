@@ -7,7 +7,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     if (JSON.parse(localStorage.getItem('user'))) {
         isLogged = JSON.parse(localStorage.getItem('user')).isLogged;
     }
-
     return (
         <Route exact {...rest} render={(props) => (
             isLogged === true
