@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import CardColumns from 'react-bootstrap/CardColumns';
 import axios from 'axios';
-import Aux from '../hoc/Auxiliray';
 import Spinner from '../components/UI/Spinner/Spinner';
 
 
@@ -28,7 +27,7 @@ const Posts = () => {
     }, []);
 
     return (
-        <Aux>
+        <>
             <h1 className="text-center mb-5">Welcome!</h1>
             {isError && <h4 className="text-center m-5" style={{ color: "red" }}>Something went wrong ...</h4>}
             {isLoading ?
@@ -43,7 +42,7 @@ const Posts = () => {
                     ))}
                 </CardColumns>}
 
-        </Aux>
+        </>
     )
 }
 

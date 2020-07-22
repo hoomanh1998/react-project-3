@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import UserContext from '../containers/Context/auth-context';
-import Aux from '../hoc/Auxiliray';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -26,7 +25,7 @@ const SignUp = (porps) => {
     });
 
     return (
-        <Aux>
+        <>
             <h2 className="mb-5 pb-3 text-center border-bottom">SignUp Page</h2>
             <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' }}
@@ -116,7 +115,7 @@ const SignUp = (porps) => {
                         </Form>
                     )}
             </Formik>
-        </Aux>
+        </>
     )
 }
 

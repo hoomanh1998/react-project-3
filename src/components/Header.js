@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import ThemeContext from "../containers/Context/theme-context";
 import UserContext from '../containers/Context/auth-context';
-import Aux from '../hoc/Auxiliray';
 import { withRouter } from "react-router";
 
 const Header = (props) => {
@@ -25,14 +24,14 @@ const Header = (props) => {
         )
     } else {
         navItems = (
-            <Aux>
+            <>
                 <Nav.Item className="ml-3">
                     <Nav.Link href="/login">Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item className="ml-3">
                     <Nav.Link href="/signup">Sign Up</Nav.Link>
                 </Nav.Item>
-            </Aux>
+            </>
         )
     }
 

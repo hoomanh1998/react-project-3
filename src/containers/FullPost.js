@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 import Spinner from '../components/UI/Spinner/Spinner';
-import Aux from '../hoc/Auxiliray';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const FullPost = () => {
@@ -30,7 +29,7 @@ const FullPost = () => {
     }, [pathname]);
 
     return (
-        <Aux>
+        <>
             {isLoading ?
                 <Spinner />
                 :
@@ -56,7 +55,7 @@ const FullPost = () => {
                     </ListGroup>
                 </div>
             }
-        </Aux>
+        </>
     )
 }
 
