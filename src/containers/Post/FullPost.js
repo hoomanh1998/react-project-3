@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import Spinner from '../components/UI/Spinner/Spinner';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const FullPost = () => {
@@ -34,7 +34,8 @@ const FullPost = () => {
                 <Spinner />
                 :
                 <div>
-                    <Card className="text-center my-3 mx-auto">
+                    <h3>Post:</h3>
+                    <Card className="text-center mb-5 mx-auto">
                         <Card.Body>
                             <Card.Title>{post.title}</Card.Title>
                             <Card.Text>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Post from './Post';
 import CardColumns from 'react-bootstrap/CardColumns';
 import axios from 'axios';
-import Spinner from '../components/UI/Spinner/Spinner';
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 
 const Posts = () => {
