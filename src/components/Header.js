@@ -3,6 +3,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import ThemeContext from "../containers/Context/theme-context";
 import UserContext from '../containers/Context/auth-context';
 import { withRouter } from "react-router";
+import { LinkContainer } from "react-router-bootstrap";
 
 const Header = (props) => {
 
@@ -26,10 +27,14 @@ const Header = (props) => {
         navItems = (
             <>
                 <Nav.Item className="ml-3">
-                    <Nav.Link href="/login">Login</Nav.Link>
+                    <LinkContainer to="/login">
+                        <Nav.Link>Login</Nav.Link>
+                    </LinkContainer>
                 </Nav.Item>
                 <Nav.Item className="ml-3">
-                    <Nav.Link href="/signup">Sign Up</Nav.Link>
+                    <LinkContainer to="/signup">
+                        <Nav.Link>Sign Up</Nav.Link>
+                    </LinkContainer>
                 </Nav.Item>
             </>
         )
@@ -38,7 +43,9 @@ const Header = (props) => {
     return (
         <Navbar fixed="top" expand="lg" variant={theme.varient} bg={theme.background}>
             <Container>
-                <Navbar.Brand href="/">Home</Navbar.Brand>
+                <LinkContainer to="/">
+                    <Navbar.Brand>Home</Navbar.Brand>
+                </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto" activeKey={location.pathname}>

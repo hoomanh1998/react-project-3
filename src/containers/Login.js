@@ -36,7 +36,6 @@ const Login = (props) => {
 
     return (
         <>
-            <h2 className="mb-5 pb-3 text-center border-bottom">Login Page</h2>
             <Formik
                 initialValues={{ email: '', password: '' }}
                 validationSchema={validationSchema}>
@@ -47,7 +46,10 @@ const Login = (props) => {
                     handleChange,
                     handleBlur
                 }) => (
-                        <Form onSubmit={e => submitHandler(e, values)}>
+                        <Form
+                            className="p-5 border rounded"
+                            onSubmit={e => submitHandler(e, values)}>
+                            <h2 className="mb-5">Login</h2>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
@@ -79,7 +81,7 @@ const Login = (props) => {
                             <Button variant="outline-secondary" onClick={toggleTheme}>
                                 Toggle Theme
                             </Button>
-                            <Button className="mt-5" variant="secondary" type="submit" block>
+                            <Button className="mt-5" variant="success" type="submit" block>
                                 Login
                             </Button>
                         </Form>

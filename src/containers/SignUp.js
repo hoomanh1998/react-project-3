@@ -26,7 +26,6 @@ const SignUp = (porps) => {
 
     return (
         <>
-            <h2 className="mb-5 pb-3 text-center border-bottom">SignUp Page</h2>
             <Formik
                 initialValues={{ first_name: '', last_name: '', email: '', password: '' }}
                 validationSchema={validationSchema}
@@ -45,7 +44,10 @@ const SignUp = (porps) => {
                     handleSubmit,
                     isSubmitting
                 }) => (
-                        <Form onSubmit={handleSubmit}>
+                        <Form 
+                        className="p-5 border rounded"
+                        onSubmit={handleSubmit}>
+                            <h2 className="mb-5">Sign Up</h2>
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label>First Name</Form.Label>
@@ -106,7 +108,7 @@ const SignUp = (porps) => {
                             </Form.Group>
                             <Button
                                 className="mt-5"
-                                variant="secondary"
+                                variant="primary"
                                 type="submit"
                                 disabled={isSubmitting}
                                 block>
