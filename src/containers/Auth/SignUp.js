@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import UserContext from '../containers/Context/auth-context';
+import { connect } from '../../store/store';
+import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 
-const SignUp = (porps) => {
-
-    const { saveUserData } = useContext(UserContext);
+const SignUp = (props) => {
 
     const validationSchema = Yup.object().shape({
         first_name: Yup.string()
@@ -24,29 +23,34 @@ const SignUp = (porps) => {
             .min(6, "*Password must be more than 6 characters")
     });
 
+    const submitHandler = (e, values) => {
+        e.preventDefault();
+        props.onSaveUser(values);
+        const { history } = props;
+        history.push('/login');
+    }
+
     return (
         <>
             <Formik
-                initialValues={{ first_name: '', last_name: '', email: '', password: '' }}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                    saveUserData(values);
-                    const { history } = porps;
-                    history.push('/login');
-                    setSubmitting(false);
-                }}>
+                initialValues={{
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    password: ''
+                }}
+                validationSchema={validationSchema}>
                 {({
                     values,
                     errors,
                     touched,
                     handleChange,
                     handleBlur,
-                    handleSubmit,
                     isSubmitting
                 }) => (
-                        <Form 
-                        className="p-5 border rounded"
-                        onSubmit={handleSubmit}>
+                        <Form
+                            className="p-5 border rounded"
+                            onSubmit={e => submitHandler(e, values)}>
                             <h2 className="mb-5">Sign Up</h2>
                             <Form.Row>
                                 <Form.Group as={Col}>
@@ -121,4 +125,14 @@ const SignUp = (porps) => {
     )
 }
 
-export default SignUp;
+const mapStateToProps = state => ({
+    data: state
+})
+
+const mapDispatchToProps = dispatch => ({
+    onSaveUser: (userData) => dispatch({
+        type: 'SAVE_USER', payload: userData
+    })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUp));

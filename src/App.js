@@ -1,75 +1,28 @@
-import React, { useState } from "react";
-
+import React from "react";
 import Layout from "./hoc/Layout";
 import { Switch, Route } from "react-router-dom";
+import { Provider } from './store/store';
 import Posts from "./containers/Post/Posts";
 import FullPost from "./containers/Post/FullPost";
-import Login from "./containers/Login";
-import SignUp from "./containers/SignUp";
-import ThemeContext, { themes } from "./containers/Context/theme-context";
-import UserContext from './containers/Context/auth-context';
+import Login from "./containers/Auth/Login";
+import SignUp from "./containers/Auth/SignUp";
+import Logout from './containers/Auth/Logout';
 import PrivateRoute from './hoc/PrivateRoute';
 
-const App = () => {
-
-  const toggleTheme = () => {
-    setState(prevState => ({
-      ...prevState,
-      theme: prevState.theme === themes.dark ? themes.blue : themes.dark
-    }));
-  };
-
-  const [state, setState] = useState({
-    theme: themes.dark,
-    toggleTheme
-  });
-
-  const [user, setUser] = useState({
-    first_name: '',
-    last_name: '',
-    email: '',
-    password: ''
-  })
-
-  const [isLogged, setIsLogged] = useState(false)
-
-  const saveUserData = (userData) => {
-    setUser({
-      ...user,
-      first_name: userData.first_name,
-      last_name: userData.last_name,
-      email: userData.email,
-      password: userData.password
-    })
-  }
-
-  const logoutHandler = () => {
-    localStorage.removeItem('user');
-  };
-
-  const toggleLogStatus = () => {
-    setIsLogged(prevState => (!prevState))
-  }
+const App = (props) => {
 
   return (
-    <ThemeContext.Provider value={state}>
-      <UserContext.Provider value={{
-        user,
-        isLogged,
-        saveUserData,
-        logoutHandler,
-        toggleLogStatus
-      }}>
-        <Layout>
-          <Switch>
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={SignUp} />
-            <PrivateRoute path="/:id" component={FullPost} />
-            <PrivateRoute path="/" component={Posts} />
-          </Switch>
-        </Layout>
-      </UserContext.Provider>
-    </ThemeContext.Provider>
+    <Provider>
+      <Layout>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
+          <PrivateRoute path="/logout" component={Logout} />
+          <PrivateRoute path="/:id" component={FullPost} />
+          <PrivateRoute path="/" component={Posts} />
+        </Switch>
+      </Layout>
+    </Provider>
   );
 };
 

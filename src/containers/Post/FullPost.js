@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
 
-const FullPost = () => {
+const FullPost = (props) => {
 
     const [post, setPost] = useState('');
     const [comments, setComments] = useState([]);
@@ -54,6 +55,11 @@ const FullPost = () => {
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
+                    <Button
+                        onClick={() => props.history.push('/')}
+                        variant="primary">
+                        Go Back Home
+                    </Button>
                 </div>
             }
         </>

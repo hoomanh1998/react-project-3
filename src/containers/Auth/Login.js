@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import UserContext from '../containers/Context/auth-context';
-import ThemeContext from '../containers/Context/theme-context';
+import { withRouter } from 'react-router-dom';
+import { connect } from '../../store/store';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const Login = (props) => {
-
-    const { user, toggleLogStatus } = useContext(UserContext)
-    const { toggleTheme } = useContext(ThemeContext);
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -23,13 +20,15 @@ const Login = (props) => {
     const submitHandler = (e, values) => {
         e.preventDefault();
         if (values.email !== "" && values.password !== "") {
-            if (user.email === values.email && user.password === values.password) {
-                toggleLogStatus();
-                localStorage.setItem('user', JSON.stringify({ isLogged: true }))
-                const { history } = props;
-                history.push('/')
+            if (props.user.email === values.email && props.user.password === values.password) {
+                props.onAuthentication()
+                localStorage.setItem('user', JSON.stringify({
+                    isLogged: true,
+                    theme: props.theme
+                }))
+                props.history.push('/')
             } else {
-                alert('You should sign up!')
+                alert('SOMETHING WENT WRONG...')
             }
         }
     }
@@ -78,7 +77,7 @@ const Login = (props) => {
                                     {errors.password}
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            <Button variant="outline-secondary" onClick={toggleTheme}>
+                            <Button variant="outline-secondary" onClick={() => props.onChangeTheme()}>
                                 Toggle Theme
                             </Button>
                             <Button className="mt-5" variant="success" type="submit" block>
@@ -91,4 +90,19 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    user: state.user,
+    isLogged: state.isLogged,
+    theme: state.theme
+})
+
+const mapDispatchToProps = dispatch => ({
+    onAuthentication: () => dispatch({
+        type: 'AUTH', payload: null
+    }),
+    onChangeTheme: () => dispatch({
+        type: 'CHANGE_THEME', payload: null
+    })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

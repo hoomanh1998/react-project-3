@@ -1,15 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import ThemeContext from "../containers/Context/theme-context";
-import UserContext from '../containers/Context/auth-context';
 import { withRouter } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
+import {connect} from '../store/store';
 
 const Header = (props) => {
-
-    const { location } = props;
-    const { theme } = useContext(ThemeContext);
-    const { logoutHandler } = useContext(UserContext);
 
     let isLogged = null;
     if (JSON.parse(localStorage.getItem('user'))) {
@@ -20,7 +15,7 @@ const Header = (props) => {
     if (isLogged === true) {
         navItems = (
             <Nav.Item className="ml-3">
-                <Nav.Link href="/login" onClick={logoutHandler}>Logout</Nav.Link>
+                <Nav.Link href="/logout" onClick={() => props.onLogout()}>Logout</Nav.Link>
             </Nav.Item>
         )
     } else {
@@ -41,14 +36,14 @@ const Header = (props) => {
     }
 
     return (
-        <Navbar fixed="top" expand="lg" variant={theme.varient} bg={theme.background}>
+        <Navbar fixed="top" expand="lg" variant={props.theme.varient} bg={props.theme.background}>
             <Container>
                 <LinkContainer to="/">
                     <Navbar.Brand>Home</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ml-auto" activeKey={location.pathname}>
+                    <Nav className="ml-auto" activeKey={props.location.pathname}>
                         {navItems}
                     </Nav>
                 </Navbar.Collapse>
@@ -57,4 +52,15 @@ const Header = (props) => {
     );
 };
 
-export default withRouter(Header);
+const mapStateToProps = state => ({
+    user: state.user,
+    theme: state.theme
+})
+
+const mapDispatchToProps = dispatch => ({
+    onLogout: () => dispatch({
+        type: 'LOGOUT', payload: null
+    })
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

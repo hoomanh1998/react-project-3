@@ -4,7 +4,6 @@ import CardColumns from 'react-bootstrap/CardColumns';
 import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 
-
 const Posts = () => {
 
     const [data, setData] = useState([]);
@@ -41,7 +40,6 @@ const Posts = () => {
                             title={item.title} />
                     ))}
                 </CardColumns>}
-
         </>
     )
 }
