@@ -6,6 +6,7 @@ import { connect } from '../../store/store';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as actions from '../../store/actions';
 
 
 const SignUp = (props) => {
@@ -26,8 +27,8 @@ const SignUp = (props) => {
     const submitHandler = (e, values) => {
         e.preventDefault();
         props.onSaveUser(values);
-        const { history } = props;
-        history.push('/login');
+        console.log(props.posts)
+        props.history.push('/login');
     }
 
     return (
@@ -126,13 +127,12 @@ const SignUp = (props) => {
 }
 
 const mapStateToProps = state => ({
-    data: state
+    data: state,
+    posts: state.posts
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSaveUser: (userData) => dispatch({
-        type: 'SAVE_USER', payload: userData
-    })
+    onSaveUser: (userData) => dispatch(actions.saveUser(userData))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignUp));

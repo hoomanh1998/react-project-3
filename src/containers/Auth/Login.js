@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from '../../store/store';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as actions from '../../store/actions';
 
 const Login = (props) => {
 
@@ -97,12 +98,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onAuthentication: () => dispatch({
-        type: 'AUTH', payload: null
-    }),
-    onChangeTheme: () => dispatch({
-        type: 'CHANGE_THEME', payload: null
-    })
+    onAuthentication: () => dispatch(actions.auth()),
+    onChangeTheme: () => dispatch(actions.changeTheme())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));

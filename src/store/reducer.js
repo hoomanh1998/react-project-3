@@ -1,28 +1,38 @@
+import * as actionTypes from './actionTypes';
+
 export const initialState = {
     user: {},
     isLogged: false,
     theme: {
         background: 'dark',
         varient: 'dark'
-    }
+    },
+    posts: []
 }
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case "SAVE_USER":
+        case actionTypes.SAVE_USER:
             return {
                 ...state,
                 user: action.payload
             }
-        case "AUTH":
+        case actionTypes.AUTH:
             return {
                 ...state,
                 isLogged: true
             }
-        case "LOGOUT":
-            localStorage.removeItem('user');
-            return state
-        case "CHANGE_THEME":
+        case actionTypes.LOGOUT:
+            return {
+                ...state,
+                user: {},
+                isLogged: false,
+                theme: {
+                    background: 'dark',
+                    varient: 'dark'
+                }
+            }
+        case actionTypes.CHANGE_THEME:
             return {
                 ...state,
                 theme: {
@@ -30,6 +40,13 @@ export const reducer = (state = initialState, action) => {
                     background:
                         state.theme.background === 'dark' ? 'primary' : 'dark'
                 }
+            }
+        case actionTypes.SET_POSTS:
+            return {
+                ...state,
+                posts: [
+                    action.payload
+                ]
             }
         default:
             return state
