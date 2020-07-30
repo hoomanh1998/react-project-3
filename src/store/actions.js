@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import axios from 'axios';
 
 export const saveUser = (user) => {
     return {
@@ -9,6 +8,9 @@ export const saveUser = (user) => {
 };
 
 export const auth = () => {
+    localStorage.setItem('user', JSON.stringify({
+        isLogged: true
+    }))
     return {
         type: actionTypes.AUTH,
         payload: null
@@ -29,20 +31,4 @@ export const changeTheme = () => {
         payload: null
     }
 };
-
-export const setPosts = (posts) => {
-    return {
-        type: actionTypes.SET_POSTS,
-        payload: posts
-    };
-};
-
-export const fetchPosts = () => async (dispatch) => {
-    try {
-        const result = await axios('https://jsonplaceholder.typicode.com/posts');
-        dispatch(setPosts(result.data));
-    } catch (error) {
-        console.log(error)
-    }
-}
 

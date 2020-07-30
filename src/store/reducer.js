@@ -6,8 +6,7 @@ export const initialState = {
     theme: {
         background: 'dark',
         varient: 'dark'
-    },
-    posts: []
+    }
 }
 
 export const reducer = (state = initialState, action) => {
@@ -40,13 +39,6 @@ export const reducer = (state = initialState, action) => {
                     background:
                         state.theme.background === 'dark' ? 'primary' : 'dark'
                 }
-            }
-        case actionTypes.SET_POSTS:
-            return {
-                ...state,
-                posts: [
-                    action.payload
-                ]
             }
         default:
             return state

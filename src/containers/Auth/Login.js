@@ -23,10 +23,6 @@ const Login = (props) => {
         if (values.email !== "" && values.password !== "") {
             if (props.user.email === values.email && props.user.password === values.password) {
                 props.onAuthentication()
-                localStorage.setItem('user', JSON.stringify({
-                    isLogged: true,
-                    theme: props.theme
-                }))
                 props.history.push('/')
             } else {
                 alert('SOMETHING WENT WRONG...')
