@@ -27,7 +27,6 @@ const SignUp = (props) => {
     const submitHandler = (e, values) => {
         e.preventDefault();
         props.onSaveUser(values);
-        console.log(props.posts)
         props.history.push('/login');
     }
 

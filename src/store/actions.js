@@ -37,14 +37,12 @@ export const setPosts = (posts) => {
     };
 };
 
-export const fetchPosts = () => {
-    return dispatch => {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
-            .then(response => {
-                dispatch(setPosts(response.data));
-            })
-            .catch(error => {
-                console.log(error)
-            });
-    };
-};
+export const fetchPosts = () => async (dispatch) => {
+    try {
+        const result = await axios('https://jsonplaceholder.typicode.com/posts');
+        dispatch(setPosts(result.data));
+    } catch (error) {
+        console.log(error)
+    }
+}
+
