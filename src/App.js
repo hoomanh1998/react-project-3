@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./hoc/Layout";
 import { Switch, Route } from "react-router-dom";
-import { Provider } from './store/store';
+import Provider from './store/store';
 import Posts from "./containers/Post/Posts";
 import FullPost from "./containers/Post/FullPost";
 import Login from "./containers/Auth/Login";
@@ -18,8 +18,8 @@ const App = (props) => {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <PrivateRoute path="/logout" component={Logout} />
-          <PrivateRoute path="/:id" component={FullPost} />
-          <PrivateRoute path="/" component={Posts} />
+          <PrivateRoute path="/posts/:id" component={FullPost} />
+          <PrivateRoute path="/posts" component={Posts} />
         </Switch>
       </Layout>
     </Provider>

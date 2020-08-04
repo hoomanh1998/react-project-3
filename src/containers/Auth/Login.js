@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { withRouter } from 'react-router-dom';
-import { connect } from '../../store/store';
+import { Store } from '../../store/store';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as actions from '../../store/actions';
 
 const Login = (props) => {
+
+    const { state, dispatch } = useContext(Store)
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -20,13 +22,11 @@ const Login = (props) => {
 
     const submitHandler = (e, values) => {
         e.preventDefault();
-        if (values.email !== "" && values.password !== "") {
-            if (props.user.email === values.email && props.user.password === values.password) {
-                props.onAuthentication()
-                props.history.push('/')
-            } else {
-                alert('SOMETHING WENT WRONG...')
-            }
+        if (state.user.email === values.email && state.user.password === values.password) {
+            dispatch(actions.authSuccess())
+            props.history.push('/posts')
+        } else {
+            alert('SOMETHING WENT WRONG...')
         }
     }
 
@@ -49,6 +49,7 @@ const Login = (props) => {
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control
+                                    required
                                     type="email"
                                     placeholder="Enter your email"
                                     name="email"
@@ -63,6 +64,7 @@ const Login = (props) => {
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control
+                                    required
                                     type="password"
                                     placeholder="Enter your password"
                                     name="password"
@@ -74,7 +76,7 @@ const Login = (props) => {
                                     {errors.password}
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            <Button variant="outline-secondary" onClick={() => props.onChangeTheme()}>
+                            <Button variant="outline-secondary" onClick={() => dispatch(actions.changeTheme())}>
                                 Toggle Theme
                             </Button>
                             <Button className="mt-5" variant="success" type="submit" block>
@@ -87,15 +89,4 @@ const Login = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    user: state.user,
-    isLogged: state.isLogged,
-    theme: state.theme
-})
-
-const mapDispatchToProps = dispatch => ({
-    onAuthentication: () => dispatch(actions.auth()),
-    onChangeTheme: () => dispatch(actions.changeTheme())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default withRouter(Login);

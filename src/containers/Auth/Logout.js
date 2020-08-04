@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
-import { connect } from '../../store/store';
+import React, { useEffect, useContext } from 'react';
+import { Store } from '../../store/store';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../../store/actions';
 
 const Logout = (props) => {
 
+    const { dispatch } = useContext(Store)
+
     useEffect(() => {
-        props.onLogout()
+        dispatch(actions.logout())
     })
 
     return (
@@ -14,12 +16,4 @@ const Logout = (props) => {
     )
 }
 
-const mapStateToProps = state => ({
-    message: state
-})
-
-const mapDispatchToProps = dispatch => ({
-    onLogout: () => dispatch(actions.logout())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
+export default Logout;

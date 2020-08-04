@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { withRouter } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
-import {connect} from '../store/store';
+import { Store } from '../store/store';
+import * as actions from '../store/actions';
 
 const Header = (props) => {
+
+    const { state, dispatch } = useContext(Store);
 
     let isLogged = null;
     if (JSON.parse(localStorage.getItem('user'))) {
@@ -15,7 +18,7 @@ const Header = (props) => {
     if (isLogged === true) {
         navItems = (
             <Nav.Item className="ml-3">
-                <Nav.Link href="/logout" onClick={() => props.onLogout()}>Logout</Nav.Link>
+                <Nav.Link href="/logout" onClick={() => dispatch(actions.logout())}>Logout</Nav.Link>
             </Nav.Item>
         )
     } else {
@@ -36,9 +39,9 @@ const Header = (props) => {
     }
 
     return (
-        <Navbar fixed="top" expand="lg" variant={props.theme.varient} bg={props.theme.background}>
+        <Navbar fixed="top" expand="lg" variant={state.theme.varient} bg={state.theme.background}>
             <Container>
-                <LinkContainer to="/">
+                <LinkContainer to="/posts">
                     <Navbar.Brand>Home</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -52,15 +55,4 @@ const Header = (props) => {
     );
 };
 
-const mapStateToProps = state => ({
-    user: state.user,
-    theme: state.theme
-})
-
-const mapDispatchToProps = dispatch => ({
-    onLogout: () => dispatch({
-        type: 'LOGOUT', payload: null
-    })
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default withRouter(Header);

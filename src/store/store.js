@@ -1,29 +1,38 @@
-import React, { useReducer, createContext, useContext } from 'react';
+import React, { useReducer, createContext } from 'react';
 import reducer, { initialState } from './reducer';
 
-const Store = createContext();
+export const Store = createContext();
 
-const Provider = (({ children }) => {
-    let store = {}
-    const [state, dispatch] = useReducer(reducer, initialState);
-    store = { state, dispatch }
-    return <Store.Provider value={store}>{children}</Store.Provider>
-})
+const applyThunk = dispatch => action => {
+    if(typeof action === 'function')
+      return action(dispatch)
+    return dispatch(action)
+  }
 
-const connect = (
-    mapStateToProps = () => { },
-    mapDispatchToProps = () => { }
-) => WrappedComponent => {
-    return () => {
-        const { state, dispatch } = useContext(Store)
-        return (
-            <WrappedComponent
-                dispatch={dispatch}
-                {...mapStateToProps(state)}
-                {...mapDispatchToProps(dispatch)}
-            />
-        )
-    }
+const useThunkReact = (reducer, initialState) => {
+    const [state, dispatch] = useReducer(reducer, initialState)
+    return [state, applyThunk(dispatch)]
 }
 
-export { Store, Provider, connect }
+const Provider = (({ children }) => {
+    const [state, dispatch] = useThunkReact(reducer, initialState);
+    return <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
+})
+
+// const connect = (
+//     mapStateToProps = () => { },
+//     mapDispatchToProps = () => { }
+// ) => WrappedComponent => {
+//     return () => {
+//         const { state, dispatch } = useContext(Store)
+//         return (
+//             <WrappedCompone
+//                 dispatch={dispatch}
+//                 {...mapStateToProps(state)}
+//                 {...mapDispatchToProps(dispatch)}
+//             />
+//         )
+//     }
+// }
+
+export default Provider;

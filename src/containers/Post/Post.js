@@ -7,7 +7,7 @@ const Post = (props) => {
         <Card className="text-center my-3 mx-auto" style={{ width: '18rem' }}>
             <Card.Body>
                 <Card.Title>{props.title}</Card.Title>
-                <LinkContainer to={"/" + props.id}>
+                <LinkContainer to={"/posts/" + props.id}>
                     <Card.Link>Show more...</Card.Link>
                 </LinkContainer>
             </Card.Body>

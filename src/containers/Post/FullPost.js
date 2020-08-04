@@ -1,52 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import axios from 'axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { Store } from '../../store/store';
+import { withRouter } from 'react-router-dom';
+import * as actions from '../../store/actions';
 
 const FullPost = (props) => {
 
-    const [post, setPost] = useState('');
-    const [comments, setComments] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const { state, dispatch } = useContext(Store);
     const { pathname } = useLocation();
 
     useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            const post = await axios(
-                'https://jsonplaceholder.typicode.com/posts' + pathname
-            );
-            const comments = await axios(
-                'https://jsonplaceholder.typicode.com/posts' + pathname + '/comments'
-            );
-            setIsLoading(false);
-            setPost(post.data);
-            setComments(comments.data)
-        };
-        fetchData();
-    }, [pathname]);
+        dispatch(actions.fetchFullPost(pathname));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <>
-            {isLoading ?
+            {state.isLoading ?
                 <Spinner />
                 :
                 <div>
                     <h3>Post:</h3>
                     <Card className="text-center mb-5 mx-auto">
                         <Card.Body>
-                            <Card.Title>{post.title}</Card.Title>
+                            <Card.Title>{state.fullPost.post.title}</Card.Title>
                             <Card.Text>
-                                {post.body}
+                                {state.fullPost.post.body}
                             </Card.Text>
                         </Card.Body>
                     </Card>
                     <h3>Comments:</h3>
                     <ListGroup className="my-3">
-                        {comments.map(comment => (
+                        {state.fullPost.comments.map(comment => (
                             <ListGroup.Item
                                 key={comment.id}>
                                 <p><strong>Name:</strong> {comment.name}</p>
@@ -56,7 +45,7 @@ const FullPost = (props) => {
                         ))}
                     </ListGroup>
                     <Button
-                        onClick={() => props.history.push('/')}
+                        onClick={() => props.history.push('/posts')}
                         variant="primary">
                         Go Back Home
                     </Button>
@@ -66,4 +55,4 @@ const FullPost = (props) => {
     )
 }
 
-export default FullPost;
+export default withRouter(FullPost);
