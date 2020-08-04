@@ -3,7 +3,7 @@ import reducer, { initialState } from './reducer';
 
 export const Store = createContext();
 
-const Thunk = dispatch => action => {
+const thunk = dispatch => action => {
   if (typeof action === 'function')
     //this will pass dispatch function as an argument to the action function in actions.js and it will dispatch another actions inside that action function.
     return action(dispatch)
@@ -13,7 +13,7 @@ const Thunk = dispatch => action => {
 
 const useThunk = (reducer, initialState) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  return [state, Thunk(dispatch)]
+  return [state, thunk(dispatch)]
 }
 
 const Provider = (({ children }) => {
