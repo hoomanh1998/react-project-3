@@ -41,7 +41,7 @@ const Header = (props) => {
     return (
         <Navbar fixed="top" expand="lg" variant={state.theme.varient} bg={state.theme.background}>
             <Container>
-                <LinkContainer to="/posts">
+                <LinkContainer to="/">
                     <Navbar.Brand>Home</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

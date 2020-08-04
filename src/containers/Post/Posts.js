@@ -17,7 +17,7 @@ const Posts = () => {
 
     return (
         <>
-            <h1 className="text-center mb-5">Welcome Back!</h1>
+            <h1 className="text-center mb-5">Posts</h1>
             {state.isLoading ?
                 <Spinner />
                 :

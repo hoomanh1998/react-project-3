@@ -6,7 +6,7 @@ const Layout = (props) => {
     return (
         <>
             <Header />
-            <main style={{ marginTop: "56px", display:"flex" }}>
+            <main style={{ marginTop: "56px", display:"flex"}}>
                 <Container className="my-5">
                     {props.children}
                 </Container>

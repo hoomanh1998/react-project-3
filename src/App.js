@@ -8,13 +8,15 @@ import Login from "./containers/Auth/Login";
 import SignUp from "./containers/Auth/SignUp";
 import Logout from './containers/Auth/Logout';
 import PrivateRoute from './hoc/PrivateRoute';
+import Home from "./containers/Home";
 
-const App = (props) => {
+const App = () => {
 
   return (
     <Provider>
       <Layout>
         <Switch>
+          <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={SignUp} />
           <PrivateRoute path="/logout" component={Logout} />
